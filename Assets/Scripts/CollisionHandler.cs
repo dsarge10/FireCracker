@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] float reload = 1f;
     void OnCollisionEnter(Collision other)
     {
         switch (other.gameObject.tag)
@@ -12,18 +13,31 @@ public class CollisionHandler : MonoBehaviour
             case "Friendly":
                 Debug.Log("Friendly");
                 break;
-
             case "Finish":
-                //Debug.Log("Finish");
-                NextLevel();
+                StartSuccessSequence();
                 break;
-
             default:
                 //Debug.Log("Sorry, you exploded!");
-                ReloadLevel();
+                StartCrashSequence();
                 break;
         }
     }
+
+        void StartSuccessSequence()
+        {
+            // todo add SFX upon crash.
+            //todo add particle effect upon crash.
+            GetComponent<Movement>().enabled = false;
+            Invoke("NextLevel", reload);
+        }
+        void StartCrashSequence() 
+        {
+            // todo add SFX upon crash.
+            //todo add particle effect upon crash.
+            GetComponent<Movement>().enabled = false;
+            //ReloadLevel();
+            Invoke("ReloadLevel", reload);
+        }
         void ReloadLevel() 
         {
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
