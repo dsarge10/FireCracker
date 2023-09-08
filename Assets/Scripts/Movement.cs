@@ -28,12 +28,13 @@ public class Movement : MonoBehaviour
         if(Input.GetKey(KeyCode.Space))
         {
             rb.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
-
+            //if there is no audio playing, play the rockets sound. This prevents sound ontop of other sound.
             if (!audioSource.isPlaying)
             {
                 audioSource.Play();
             }
         }
+        //add the else to the outside of the first if statement to prevent the sound from rapping over other sound.
         else
         {
             audioSource.Stop();
