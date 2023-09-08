@@ -382,6 +382,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket
       objectReference: {fileID: 0}
+    - target: {fileID: 3234423010143315739, guid: 6ec6def4ec83d49198b4c3f562be375c, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4527342169903810528, guid: 6ec6def4ec83d49198b4c3f562be375c, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -425,14 +429,6 @@ PrefabInstance:
     - target: {fileID: 4527342169903810528, guid: 6ec6def4ec83d49198b4c3f562be375c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8802549560289918397, guid: 6ec6def4ec83d49198b4c3f562be375c, type: 3}
-      propertyPath: m_Drag
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8802549560289918397, guid: 6ec6def4ec83d49198b4c3f562be375c, type: 3}
-      propertyPath: m_Constraints
-      value: 56
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
