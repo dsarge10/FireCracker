@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class CollisionHandler : MonoBehaviour
 {
     // PARAMETERS - for tuning, typically set in the editor
-    [SerializeField] float reload = 1f;
+    [SerializeField] float reloadDelay = 1f;
     [SerializeField] AudioClip success;
     [SerializeField] AudioClip crash;
 
@@ -14,6 +14,7 @@ public class CollisionHandler : MonoBehaviour
     AudioSource audioSource;
 
     //STATE - private instance (member) variables
+    bool isTransitioning = false;
 
     void Start() 
     {
@@ -23,6 +24,9 @@ public class CollisionHandler : MonoBehaviour
     
     void OnCollisionEnter(Collision other)
     {
+        //if isTransitioning is equal to false jump out of OnCollisionEnter method without reaching the switch statement.
+        if(isTransitioning == true) { return; }
+
         switch (other.gameObject.tag)
         {
             case "Friendly":
@@ -40,23 +44,24 @@ public class CollisionHandler : MonoBehaviour
 
         void StartSuccessSequence()
         {
+            isTransitioning = true;
+            audioSource.Stop();
             // todo add SFX upon crash.
-            if (!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(success);
-            }
+            audioSource.PlayOneShot(success);
             //todo add particle effect upon crash.
             GetComponent<Movement>().enabled = false;
-            Invoke("NextLevel", reload);
+            Invoke("NextLevel", reloadDelay);
         }
         void StartCrashSequence() 
         {
+            isTransitioning = true;
+            audioSource.Stop();
             // todo add SFX upon crash.
             audioSource.PlayOneShot(crash);
             //todo add particle effect upon crash.
             GetComponent<Movement>().enabled = false;
             //ReloadLevel();
-            Invoke("ReloadLevel", reload);
+            Invoke("ReloadLevel", reloadDelay);
         }
         void ReloadLevel() 
         {
