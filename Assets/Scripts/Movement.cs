@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    // PARAMETERS - for tuning, typically set in the editor
     [SerializeField] float mainThrust = 100f;
     [SerializeField] float rotationThrust = 10f;
+    [SerializeField] AudioClip mainEngine;
+
+    //CACHE - references for readability or speed
     Rigidbody rb;
     AudioSource audioSource;
+
+    //STATE - private instance (member) variables
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +37,7 @@ public class Movement : MonoBehaviour
             //if there is no audio playing, play the rockets sound. This prevents sound ontop of other sound.
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(mainEngine);
             }
         }
         //add the else to the outside of the first if statement to prevent the sound from rapping over other sound.

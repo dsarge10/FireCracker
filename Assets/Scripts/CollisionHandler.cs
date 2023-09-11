@@ -5,7 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    // PARAMETERS - for tuning, typically set in the editor
     [SerializeField] float reload = 1f;
+    [SerializeField] AudioClip success;
+    [SerializeField] AudioClip crash;
+
+    //CACHE - references for readability or speed
+    AudioSource audioSource;
+
+    //STATE - private instance (member) variables
+
+    void Start() 
+    {
+        //CACHE - audioSource to use within other methods
+        audioSource = GetComponent<AudioSource>();
+    }
+    
     void OnCollisionEnter(Collision other)
     {
         switch (other.gameObject.tag)
@@ -26,6 +41,10 @@ public class CollisionHandler : MonoBehaviour
         void StartSuccessSequence()
         {
             // todo add SFX upon crash.
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(success);
+            }
             //todo add particle effect upon crash.
             GetComponent<Movement>().enabled = false;
             Invoke("NextLevel", reload);
@@ -33,6 +52,7 @@ public class CollisionHandler : MonoBehaviour
         void StartCrashSequence() 
         {
             // todo add SFX upon crash.
+            audioSource.PlayOneShot(crash);
             //todo add particle effect upon crash.
             GetComponent<Movement>().enabled = false;
             //ReloadLevel();
