@@ -19,6 +19,9 @@ public class Oscillator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // was getting a NaN error because we could not divide by zero therefore I had to change to Mathf.Epsilon.
+        // if period is <= a tiny number rather than saying "== 0f"
+        if (period <= Mathf.Epsilon) { return; }
         //Measure time. 2 seconds / 2 seconds would equal 1.
         float cycles = Time.time / period; // continually growing over time.
         //need tau as a value. Tau is the complete radius of a circle or cycle.
