@@ -17,6 +17,7 @@ public class CollisionHandler : MonoBehaviour
 
     //STATE - private instance (member) variables
     bool isTransitioning = false;
+    bool collisionDisabled = false;
 
     void Start() 
     {
@@ -24,10 +25,28 @@ public class CollisionHandler : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
     
+    void Update() 
+    {
+        DebugKeys();
+    }
+
+    //Disable before publishing.
+    void DebugKeys()
+        {
+            if(Input.GetKey(KeyCode.L))
+            {
+                NextLevel();
+            }
+            else if(Input.GetKeyDown(KeyCode.C))
+            {
+                collisionDisabled = !collisionDisabled; // toggle collision
+            }
+        }
+
     void OnCollisionEnter(Collision other)
     {
         //if isTransitioning is equal to false jump out of OnCollisionEnter method without reaching the switch statement.
-        if(isTransitioning == true) { return; }
+        if(isTransitioning || collisionDisabled) { return; }
 
         switch (other.gameObject.tag)
         {
@@ -48,9 +67,9 @@ public class CollisionHandler : MonoBehaviour
         {
             isTransitioning = true;
             audioSource.Stop();
-            // todo add SFX upon crash.
+            // SFX upon crash.
             audioSource.PlayOneShot(success);
-            //todo add particle effect upon crash.
+            //particle effect upon success.
             successParticles.Play();
             GetComponent<Movement>().enabled = false;
             Invoke("NextLevel", reloadDelay);

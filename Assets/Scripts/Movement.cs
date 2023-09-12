@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -36,7 +37,34 @@ public class Movement : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
+            StartThrust();
+        }
+        //add the else to the outside of the first if statement to prevent the sound from rapping over other sound.
+        else
+        {
+            StopThrust();
+        }
+    }
+
+    void ProcessRotation() 
+    {
+        if(Input.GetKey(KeyCode.A))
+        {
+            TurnLeft();
+        }
+        else if(Input.GetKey(KeyCode.D))
+        {
+            TurnRight();
+        }
+        else 
+        {
+            StopTurning();
+        }
+    }
+    
+    void StartThrust() 
+    {
+        rb.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
             //if there is no audio playing, play the rockets sound. This prevents sound ontop of other sound.
             if (!audioSource.isPlaying)
             {
@@ -46,40 +74,38 @@ public class Movement : MonoBehaviour
             {
             boosterParticles.Play();
             }
-        }
-        //add the else to the outside of the first if statement to prevent the sound from rapping over other sound.
-        else
-        {
-            audioSource.Stop();
-            boosterParticles.Stop();
-        }
     }
 
-    void ProcessRotation() 
+    void StopThrust()
     {
-        if(Input.GetKey(KeyCode.A))
-        {
-            //Passing rotationThrust in to allow for a positive or negative thrust. "forward or -forward".
+            audioSource.Stop();
+            boosterParticles.Stop();
+    }
+
+    void TurnLeft() 
+    {
+        //Passing rotationThrust in to allow for a positive or negative thrust. "forward or -forward".
             ApplyRotation(rotationThrust);
             if (!leftThrusterParticles.isPlaying)
             {
             leftThrusterParticles.Play();
             }
-        }
-        else if(Input.GetKey(KeyCode.D))
-        {
-            //Passing rotationThrust in to allow for a positive or negative thrust. "forward or -forward".
+    }
+
+    void TurnRight()
+    {
+        //Passing rotationThrust in to allow for a positive or negative thrust. "forward or -forward".
             ApplyRotation(-rotationThrust);
              if (!rightThrusterParticles.isPlaying)
             {
             rightThrusterParticles.Play();
             }
-        }
-        else 
-        {
+    }
+
+    void StopTurning()
+    {
             leftThrusterParticles.Stop();
             rightThrusterParticles.Stop();
-        }
     }
 
     public void ApplyRotation(float rotationThisFrame)
