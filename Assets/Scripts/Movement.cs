@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class Movement : MonoBehaviour
 {
     // PARAMETERS - for tuning, typically set in the editor
-    [SerializeField] float mainThrust = 100f;
-    [SerializeField] float rotationThrust = 10f;
+    [SerializeField] float mainThrust = 1000f;
+    [SerializeField] float rotationThrust = 200f;
     [SerializeField] AudioClip mainEngine;
     [SerializeField] ParticleSystem leftThrusterParticles;
     [SerializeField] ParticleSystem rightThrusterParticles;
